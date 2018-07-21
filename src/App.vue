@@ -1,17 +1,56 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
+body {
+  margin: 0 auto;
+  padding: 0;
+  -webkit-font-feature-settings: "palt";
+  font-feature-settings: "palt";
+  font-family: Avenir Next, -apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Kaku Gothic ProN,Arial,meiryo,sans-serif;
+  background: #171D27;
+  color: white;
 }
+
+a:visited {
+  color: white;
+}
+
+.logo  {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.button {
+  text-align: center;
+  margin: 30px 0 50px;
+}
+
+.button a {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 256px;
+  font-weight: bold;
+  padding: 16px;
+  background: #c83951;
+  color: white;
+  border: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+  background-image: linear-gradient(-90deg, #933AAF 0%, #E63C56 100%);
+  border-radius: 30px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.50);
+}
+
+#uport-qr img {
+  width: 300px;
+}
+
 </style>
