@@ -9,6 +9,8 @@ import Mypage from './views/Mypage.vue'
 import Login from './views/Login.vue'
 import User from './views/User.vue'
 
+import Test from './views/shop/Test.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +20,13 @@ export default new Router({
       name: 'home',
       component: Home
     },
+
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
+    },
+
     {
       path: '/club',
       name: 'club',
