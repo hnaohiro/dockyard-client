@@ -7,7 +7,7 @@
 <style>
 body {
   margin: 0;
-  background: black;
+  background: #0B1116;
   color: white;
 }
 a:visited {

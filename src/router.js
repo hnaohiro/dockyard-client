@@ -6,6 +6,7 @@ import ClubSchedule from './views/ClubSchedule.vue'
 import Purchase from './views/Purchase.vue'
 import Thanks from './views/Thanks.vue'
 import Mypage from './views/Mypage.vue'
+import Pass from './views/Pass.vue'
 import Login from './views/Login.vue'
 import User from './views/User.vue'
 
@@ -51,6 +52,11 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: Mypage
+    },
+    {
+      path: '/pass',
+      name: 'pass',
+      component: Pass
     },
     {
       path: '/login',
