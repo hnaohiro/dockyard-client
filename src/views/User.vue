@@ -5,7 +5,7 @@
     <p>avater: <img :src="getAvatar" width="50px" height="50px"/></p>
     <p>phone: {{getPhone}}</p>
     <p>country: {{getCountry}}</p>
-    <p>balance: {{getEth}} ETH</p>
+    <p>balance: {{getBalanceEth}} ETH</p>
   </div>
 </template>
 
@@ -17,15 +17,12 @@ import web3 from 'web3'
 export default {
   name: 'user',
   computed: {
-    getEth() {
-      return web3.utils.fromWei(this.$store.getters.getBalance.toString(), 'ether')
-    },
     ...mapGetters([
       'getName',
       'getAvatar',
       'getPhone',
       'getCountry',
-      'getBalance'
+      'getBalanceEth'
     ])
   },
   mounted() {
