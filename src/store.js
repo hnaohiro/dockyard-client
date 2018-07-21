@@ -6,17 +6,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    response: ''
+    requestToken: ''
   },
   mutations: {
-    setResponse(state, value) {
-      state.response = value
+    setRequestToken(state, value) {
+      state.requestToken = value
     }
   },
   actions: {
-    async onApiTestClick({ commit }) {
-      const response = await axios.get('http://localhost:3000/api/test')
-      commit('setResponse', response.data)
+    async getRequestToken({ commit }) {
+      const token = await axios.get('http://localhost:3000/login')
+      commit('setRequestToken', token.data)
     }
   }
 })

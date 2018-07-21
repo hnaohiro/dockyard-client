@@ -1,6 +1,7 @@
+
 <template>
   <div>
-    <router-link to="/login">Login</router-link>
+    <p>info</p>
   </div>
 </template>
 
@@ -8,9 +9,13 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'home',
+  name: 'login_info',
   methods: mapActions({
   }),
+  mounted() {
+  },
+  computed: {
+  },
   components: {
   }
 }
