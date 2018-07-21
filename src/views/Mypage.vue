@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="mypage-user"><img src="../assets/mypage/1.png"></div>
+    <div class="mypage-user">
+      <div class="mypage-avatar"><img  :src="getAvatar"></div>
+      <div class="mypage-name">{{getName}}</div>
+    </div>
+
     <div class="mypage-tab"><img src="../assets/mypage/2.png"></div>
 
     <div class="mypage-pass">
@@ -18,15 +22,46 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'mypage'
+  name: 'mypage',
+  computed: {
+    ...mapGetters([
+      'getName',
+      'getAvatar'
+    ])
+  }
 }
 </script>
 
 <style>
-.mypage-user img {
+/* .mypage-user img {
   margin: 0 auto;
   width: 100%;
+} */
+
+.mypage-user {
+  padding: 30px 30px 20px;
+}
+
+.mypage-avatar {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100px;
+}
+
+.mypage-avatar img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.mypage-name {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 30px;
 }
 
 .mypage-tab img {
