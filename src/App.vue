@@ -5,9 +5,12 @@
 </template>
 
 <style>
-#app {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
+body {
+  margin: 0;
+  background: black;
+  color: white;
+}
+a:visited {
+  color: white;
 }
 </style>

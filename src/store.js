@@ -48,10 +48,12 @@ export default new Vuex.Store({
           commit('setBalance', balance)
         })
       
-        router.push('user')
+        router.push('purchase')
       })
     },
-
+    purchase({ commit }) {
+      router.push('thanks')
+    }
   },
   getters: {
     getCredential(state) {
