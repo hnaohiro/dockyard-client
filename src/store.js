@@ -48,11 +48,11 @@ export default new Vuex.Store({
           commit('setBalance', balance)
         })
       
-        router.push('purchase')
+        router.push('/purchase')
       })
     },
     purchase({ commit }) {
-      router.push('thanks')
+      router.push('/thanks')
     }
   },
   getters: {
@@ -74,8 +74,11 @@ export default new Vuex.Store({
     getAddress(state) {
       return (state.credential) ? MNID.decode(state.credential.address).address : null
     },
-    getBalance(state) {
+    getBalanceWei(state) {
       return state.balance
-    }
+    },
+    getBalanceEth(state, getters) {
+      return (getters.getBalanceWei) ? web3.utils.fromWei(getters.getBalanceWei.toString(), 'ether') : null
+    },
   }
 })

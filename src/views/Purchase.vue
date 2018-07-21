@@ -6,7 +6,7 @@
 
     <div class="wallet">
       <div class="label">Wallet</div>
-      <div class="balance">0.05 ETH</div>
+      <div class="balance">{{getBalanceEth}} ETH</div>
     </div>
 
     <div class="purchase">
@@ -16,13 +16,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'purchase',
   methods: mapActions({
     "onPurchaseButtonClick": "purchase"
-  })
+  }),
+  computed: {
+    ...mapGetters([
+      'getBalanceEth'
+    ])
+  },
 }
 </script>
 
