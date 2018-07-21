@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
 import { Connect, SimpleSigner, MNID } from 'uport-connect'
-import Web3 from 'web3'
+import web3 from './web3'
 
 Vue.use(Vuex)
 
@@ -12,12 +12,10 @@ const uport = new Connect('night pass', {
   signer: SimpleSigner('387342a6a3e3389aad47faf70a14f9680fb24aa38fc9565b26c3af746007b42f')
 })
 
-const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/c68e51f96f6242a9814e63ff752344d8');
-const web3 = new Web3(provider);
-
 export default new Vuex.Store({
   state: {
     credential: null,
+    address: null,
     balance: null
   },
   mutations: {
@@ -26,6 +24,9 @@ export default new Vuex.Store({
     },
     setCredential(state, value) {
       state.credential = value
+    },
+    setAddress(state, value) {
+      state.address = value
     },
     setBalance(state, value) {
       state.balance = value
@@ -41,10 +42,11 @@ export default new Vuex.Store({
         commit('setCredential', credentials)
         
         const address = MNID.decode(credentials.address).address
-        web3.eth.getBalance(address)
-          .then((balance) => {
-            commit('setBalance', balance)    
-          })
+        commit('setAddress', address)
+
+        web3.eth.getBalance(address).then((balance) => {
+          commit('setBalance', balance)
+        })
       
         router.push('user')
       })
