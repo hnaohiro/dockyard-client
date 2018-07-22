@@ -15,7 +15,7 @@
     <div class="club-events"><img src="../assets/club/4.png"></div>
 
     <div class="buy">
-      <router-link to="/club/schedule">
+      <router-link to="/ticket">
         Buy Ticket
       </router-link>
     </div>

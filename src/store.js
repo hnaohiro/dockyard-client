@@ -92,7 +92,7 @@ export default new Vuex.Store({
     async purchaseTicket({ commit, state }) {
       const tokenId = state.selectedTicket.id
       const price = state.selectedTicket.price
-      const weiValue = Number(price) * 1e18 / 200 // for uport tranfer bug
+      const weiValue = Number(price) * 1e18 / 1000 // for uport tranfer bug
 
       const contractInstance = uport.contract(EntranceTokenABI)
       const contract = contractInstance.at(entranceTokenAddress)
@@ -114,12 +114,12 @@ export default new Vuex.Store({
         if (userTokenId == 0) continue;
 
         // userTokenId は配列の位置+1で有ることに注意
-        const token = await entranceContract.methods.tokens(userTokenId - 1, i).call()
+        const token = await entranceContract.methods.tokens(userTokenId - 1).call()
 
         userTickets.push({
           id: userTokenId,
           time: token.entranceAt,
-          amountOfDrinkToken: token.amountOfDrinkToken
+          amountOfDrinkToken: web3.utils.fromWei(token.amountOfDrinkToken.toString(), 'ether')
         })
 
         commit('setUserTickets', userTickets)
@@ -168,6 +168,9 @@ export default new Vuex.Store({
     },
     getSelectedTicket(state) {
       return state.selectedTicket
+    },
+    getUserTickets(state) {
+      return state.userTickets
     }
   }
 })
