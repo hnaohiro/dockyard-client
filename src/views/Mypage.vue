@@ -26,6 +26,9 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'mypage',
+  mounted() {
+    this.$store.dispatch('fetchUserTickets')
+  },
   computed: {
     ...mapGetters([
       'getName',
@@ -36,10 +39,6 @@ export default {
 </script>
 
 <style>
-/* .mypage-user img {
-  margin: 0 auto;
-  width: 100%;
-} */
 
 .mypage-user {
   padding: 30px 30px 20px;

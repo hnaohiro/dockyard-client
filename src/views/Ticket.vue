@@ -4,6 +4,7 @@
 
     <div class="tickets">
       <div class="ticket" v-for="ticket in getTickets" v-bind:key="ticket.id">
+        <p>id: {{ticket.id}}</p>
         <p>time: {{ticket.time}}</p>
         <p>price: {{ticket.price}} ETH</p>
         <p>remain: {{ticket.remain}}</p>
