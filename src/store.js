@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import router from './router'
 import { Connect, SimpleSigner, MNID } from 'uport-connect'
 import web3 from './web3'
+import { drinkContract, entranceContract } from './contract'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   state: {
     credential: null,
     address: null,
-    balance: null
+    balance: null,
+    tickets: []
   },
   mutations: {
     setRequestToken(state, value) {
@@ -30,6 +32,9 @@ export default new Vuex.Store({
     },
     setBalance(state, value) {
       state.balance = value
+    },
+    setTickets(state, value) {
+      state.tickets = value
     }
   },
   actions: {
@@ -53,6 +58,25 @@ export default new Vuex.Store({
     },
     purchase({ commit }) {
       router.push('/thanks')
+    },
+    async fetchTickets({ commit, state }) {
+      const stockCount = await entranceContract.methods.stockCount().call()
+      let tickets = state.tickets
+
+      for (let i = 0; i < stockCount; i++) {
+        const ticket = await entranceContract.methods.stocks(i).call()
+        const remain = await entranceContract.methods.stockRemainings(i).call()
+
+        tickets.push({
+          id: i,
+          time: ticket.entranceAt,
+          price: web3.utils.fromWei(ticket.price.toString(), 'ether'),
+          amountOfDrinkToken: ticket.amountOfDrinkToken,
+          remain: remain
+        })
+
+        commit('setTickets', tickets)
+      }
     }
   },
   getters: {
@@ -79,6 +103,9 @@ export default new Vuex.Store({
     },
     getBalanceEth(state, getters) {
       return (getters.getBalanceWei) ? web3.utils.fromWei(getters.getBalanceWei.toString(), 'ether') : null
+    },
+    getTickets(state) {
+      return state.tickets
     },
   }
 })
