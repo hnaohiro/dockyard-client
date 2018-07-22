@@ -7,6 +7,15 @@
 
     <div class="mypage-tab"><img src="../assets/mypage/2.png"></div>
 
+    <div class="tickets">
+      <div class="ticket" v-for="ticket in getUserTickets" v-bind:key="ticket.id">
+        <p>id: {{ticket.id}}</p>
+        <p>time: {{ticket.time}}</p>
+        <p>drink: {{ticket.amountOfDrinkToken}}</p>
+        <hr>
+      </div>
+    </div>
+
     <div class="mypage-pass">
       <router-link to="/pass">
         <img src="../assets/mypage/3.png">
@@ -32,7 +41,8 @@ export default {
   computed: {
     ...mapGetters([
       'getName',
-      'getAvatar'
+      'getAvatar',
+      'getUserTickets'
     ])
   }
 }
