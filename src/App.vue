@@ -6,12 +6,13 @@
 
 <style>
 body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  width: 375px;
   -webkit-font-feature-settings: "palt";
   font-feature-settings: "palt";
-  font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Kaku Gothic ProN,Arial,meiryo,sans-serif;
-  background: #0B1116;
+  font-family: Avenir Next, -apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Kaku Gothic ProN,Arial,meiryo,sans-serif;
+  background: #171D27;
   color: white;
 }
 a:visited {
@@ -22,5 +23,6 @@ a:visited {
   text-align: center;
   margin: 24px 0;
 }
+
 
 </style>
