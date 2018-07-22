@@ -10,7 +10,7 @@ import Pass from './views/Pass.vue'
 import Login from './views/Login.vue'
 import User from './views/User.vue'
 
-import Test from './views/shop/Test.vue'
+import Qr from './views/shop/Qr.vue'
 
 Vue.use(Router)
 
@@ -23,9 +23,9 @@ export default new Router({
     },
 
     {
-      path: '/test',
-      name: 'test',
-      component: Test
+      path: '/qr',
+      name: 'qr',
+      component: Qr
     },
 
     {
