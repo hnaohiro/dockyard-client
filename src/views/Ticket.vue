@@ -2,6 +2,15 @@
   <div>
     <h2>Select</h2>
 
+    <div class="tickets">
+      <div class="ticket" v-for="ticket in getTickets" v-bind:key="ticket.id">
+        <p>time: {{ticket.time}}</p>
+        <p>price: {{ticket.price}} ETH</p>
+        <p>remain: {{ticket.remain}}</p>
+        <hr>
+      </div>
+    </div>
+
     <div class="select"><img src="../assets/club_schedule/1.png"></div>
 
     <div class="confirm">
@@ -11,13 +20,21 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'club_schedule',
+  name: 'ticket',
   methods: mapActions({
     "onUPortButtonClick": "requestCredential"
-  })
+  }),
+  mounted() {
+    this.$store.dispatch('fetchTickets')
+  },
+  computed: {
+    ...mapGetters([
+      'getTickets'
+    ])
+  }
 }
 </script>
 
