@@ -19,6 +19,7 @@ const uport = new Connect('night pass', {
 export default new Vuex.Store({
   state: {
     credential: null,
+    birthdate: null,
     address: '0x4c867c935ceb980e211326733a5c9704d0a4a459', //null,
     balance: null,
     tickets: [],
@@ -47,17 +48,21 @@ export default new Vuex.Store({
     },
     setDrikenTokenBalance(state, value) {
       state.drikenTokenBalance = value
+    },
+    setBirthdate(state, value) {
+      state.birthdate = value
     }
   },
   actions: {
-    async requestCredential({ commit }) {
+    async requestCredential({ commit, dispatch }) {
       uport.requestCredentials({
-        requested: ['name', 'avatar', 'phone', 'country'],
+        requested: ['name', 'avatar', 'phone', 'country', 'birthdate'],
         notifications: true 
       })
       .then((credentials) => {
         commit('setCredential', credentials)
-        
+        commit('setBirthdate', credentials.birthdate)
+
         const address = MNID.decode(credentials.address).address
         commit('setAddress', address)
 
@@ -65,8 +70,18 @@ export default new Vuex.Store({
           commit('setBalance', balance)
         })
 
-        router.push('/purchase')
+        dispatch('validateAge')
       })
+    },
+    async validateAge({ getters }) {
+      console.log('age: ' + getters.getAge)
+
+      if (getters.getAge && getters.getAge >= 20) {
+        router.push('/purchase')
+      } else {
+        alert('あなたは未成年です!')
+        router.push('/')
+      }
     },
     // チケット一覧を取得する
     async fetchTickets({ commit, state }) {
@@ -171,6 +186,18 @@ export default new Vuex.Store({
     },
     getUserTickets(state) {
       return state.userTickets
+    },
+    getBirthdate(state) {
+      return state.birthdate
+    },
+    getAge(state, getters) {
+      if (getters.getBirthdate) {
+        const diff_ms = Date.now() - new Date(getters.getBirthdate).getTime()
+        const age_dt = new Date(diff_ms)
+        return Math.abs(age_dt.getUTCFullYear() - 1970)
+      } else {
+        return null
+      }
     }
   }
 })
