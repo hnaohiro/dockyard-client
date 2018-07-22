@@ -3,14 +3,21 @@
     <div class="logo">
       <img src="../../assets/logo.svg">
     </div>
-    <div class="scan">
-      <img src="../../assets/qr/code.png" width="260">
-      <h2 class="scan-title">
-        Scan QR Code
-      </h2>
-      <p class="scan-text">
-        Please scan the QR code to enter.
+
+    <div class="displayUser">
+      <img src="../../assets/displayUser/avatar.png" width="200">
+      <p class="displayUser-name">
+        Mamoru Kijima
       </p>
+      <dl class="displayUser-info">
+        <dt>Age</dt>
+        <dd>24</dd>
+      </dl>
+      <dl class="displayUser-info">
+        <dt>BirthDay</dt>
+        <dd>1994/05/12</dd>
+      </dl>
+      <img class="shopTicket" src="../../assets/displayUser/shopTicket.png" width="100%">
     </div>
 
   </div>
@@ -18,21 +25,35 @@
 
 <script>
 export default {
-  name: 'club'
+  name: 'qr'
 }
 </script>
 
 <style>
 
-.scan {
-  width: 260px;
-  margin: 64px auto 0;
+.displayUser {
   text-align: center;
 }
 
-.scan-title {
-  font-size: 32px;
-  padding-left: 0;
+.displayUser-name {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.displayUser-info {
+  text-align: left;
+  display: flex;
+  width: 50%;
+  margin: 0 auto 8px;
+}
+
+dt {
+  width: 60px;
+}
+
+.shopTicket {
+  display: block;
+  margin-top: 24px;
 }
 
 </style>

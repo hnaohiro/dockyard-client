@@ -11,6 +11,7 @@ import Login from './views/Login.vue'
 import User from './views/User.vue'
 
 import Qr from './views/shop/Qr.vue'
+import DisplayUser from './views/shop/DisplayUser.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,12 @@ export default new Router({
       path: '/qr',
       name: 'qr',
       component: Qr
+    },
+
+    {
+      path: '/displayUser',
+      name: 'displayUser',
+      component: DisplayUser
     },
 
     {
