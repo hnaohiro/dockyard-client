@@ -5,6 +5,9 @@ import { Connect, SimpleSigner, MNID } from 'uport-connect'
 import web3 from './web3'
 import { drinkContract, entranceContract } from './contract'
 
+import { drinkTokenABI, EntranceTokenABI } from './abi'
+const entranceTokenAddress = '0xed9b30178f0eb74456947e835e2796f03e241b3c'
+
 Vue.use(Vuex)
 
 const uport = new Connect('night pass', {
@@ -16,9 +19,12 @@ const uport = new Connect('night pass', {
 export default new Vuex.Store({
   state: {
     credential: null,
-    address: null,
+    address: '0x4c867c935ceb980e211326733a5c9704d0a4a459', //null,
     balance: null,
-    tickets: []
+    tickets: [],
+    selectedTicket: { id: 1, time: '2018-01-01 00:00:00', price: '0.1', amountOfDrinkToken: '500' }, //null,
+    userTickets: [],
+    drikenTokenBalance: null,
   },
   mutations: {
     setRequestToken(state, value) {
@@ -35,6 +41,12 @@ export default new Vuex.Store({
     },
     setTickets(state, value) {
       state.tickets = value
+    },
+    setUserTickets(state, value) {
+      state.userTickets = value
+    },
+    setDrikenTokenBalance(state, value) {
+      state.drikenTokenBalance = value
     }
   },
   actions: {
@@ -52,18 +64,16 @@ export default new Vuex.Store({
         web3.eth.getBalance(address).then((balance) => {
           commit('setBalance', balance)
         })
-      
+
         router.push('/purchase')
       })
     },
-    purchase({ commit }) {
-      router.push('/thanks')
-    },
+    // チケット一覧を取得する
     async fetchTickets({ commit, state }) {
-      const stockCount = await entranceContract.methods.stockCount().call()
+      const count = await entranceContract.methods.stockCount().call()
       let tickets = state.tickets
 
-      for (let i = 0; i < stockCount; i++) {
+      for (let i = 0; i < count; i++) {
         const ticket = await entranceContract.methods.stocks(i).call()
         const remain = await entranceContract.methods.stockRemainings(i).call()
 
@@ -71,12 +81,58 @@ export default new Vuex.Store({
           id: i,
           time: ticket.entranceAt,
           price: web3.utils.fromWei(ticket.price.toString(), 'ether'),
-          amountOfDrinkToken: ticket.amountOfDrinkToken,
+          amountOfDrinkToken: web3.utils.fromWei(ticket.amountOfDrinkToken.toString(), 'ether'),
           remain: remain
         })
 
         commit('setTickets', tickets)
       }
+    },
+    // チケットを購入する
+    async purchaseTicket({ commit, state }) {
+      const tokenId = state.selectedTicket.id
+      const price = state.selectedTicket.price
+      const weiValue = Number(price) * 1e18 / 200 // for uport tranfer bug
+
+      const contractInstance = uport.contract(EntranceTokenABI)
+      const contract = contractInstance.at(entranceTokenAddress)
+
+      await contract.buyToken(tokenId, { value: weiValue, gasPrice: 5e9 })
+
+      router.push('/thanks')
+    },
+    // ユーザーが所持するチケット一覧を取得する
+    async fetchUserTickets({ commit, state }) {
+      const address = state.address
+      const count = await entranceContract.methods.userTokenCount().call({ from: address })
+      let userTickets = state.userTickets
+
+      for (let i = 0; i < count; i++) {
+        const userTokenId = await entranceContract.methods.userTokens(address, i).call()
+
+        // tokenId が 0 の時は使用済み
+        if (userTokenId == 0) continue;
+
+        // userTokenId は配列の位置+1で有ることに注意
+        const token = await entranceContract.methods.tokens(userTokenId - 1, i).call()
+
+        userTickets.push({
+          id: userTokenId,
+          time: token.entranceAt,
+          amountOfDrinkToken: token.amountOfDrinkToken
+        })
+
+        commit('setUserTickets', userTickets)
+      }
+    },
+    // ユーザーチケットの使用する
+    async useUserTicket({ commit, state }, tokenId) {
+      await entranceContract.methods.useToken(tokenId).call({ gasPrice: 5e9, from: state.address })
+    },
+    // ドリンクトークンの残高を取得する
+    async fetchDrikenTokenBalance({ commit, state }) {
+      const balance = await drinkContract.methods.balanceOf(state.address).call({ from: state.address })
+      commit('setDrikenTokenBalance', balance)
     }
   },
   getters: {
@@ -107,5 +163,11 @@ export default new Vuex.Store({
     getTickets(state) {
       return state.tickets
     },
+    getDrikenTokenBalance(state) {
+      return state.drikenTokenBalance
+    },
+    getSelectedTicket(state) {
+      return state.selectedTicket
+    }
   }
 })

@@ -4,6 +4,13 @@
 
     <div class="info"><img src="../assets/purchase/1.png"></div>
 
+    <div class="purchase-ticket" v-if="getSelectedTicket">
+      <p>id: {{getSelectedTicket.id}}</p>
+      <p>time: {{getSelectedTicket.time}}</p>
+      <p>price: {{getSelectedTicket.price}} ETH</p>
+      <p>drink: {{getSelectedTicket.amountOfDrinkToken}} DRTK</p>
+    </div>
+
     <div class="wallet">
       <div class="label">Wallet</div>
       <div class="balance">{{getBalanceEth}} ETH</div>
@@ -21,11 +28,12 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'purchase',
   methods: mapActions({
-    "onPurchaseButtonClick": "purchase"
+    "onPurchaseButtonClick": "purchaseTicket"
   }),
   computed: {
     ...mapGetters([
-      'getBalanceEth'
+      'getBalanceEth',
+      'getSelectedTicket'
     ])
   },
 }
