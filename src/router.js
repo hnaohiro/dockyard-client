@@ -12,6 +12,7 @@ import User from './views/User.vue'
 
 import Qr from './views/shop/Qr.vue'
 import DisplayUser from './views/shop/DisplayUser.vue'
+import EntranceSuccess from './views/shop/EntranceSuccess.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,12 @@ export default new Router({
       path: '/displayUser',
       name: 'displayUser',
       component: DisplayUser
+    },
+
+    {
+      path: '/entranceSuccess',
+      name: 'entranceSuccess',
+      component: EntranceSuccess
     },
 
     {
