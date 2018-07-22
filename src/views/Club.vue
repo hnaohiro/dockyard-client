@@ -14,7 +14,7 @@
 
     <div class="club-events"><img src="../assets/club/4.png"></div>
 
-    <div class="buy">
+    <div class="button">
       <router-link to="/ticket">
         Buy Ticket
       </router-link>
@@ -57,21 +57,5 @@ h2 {
 .club-events img {
   width: 100%;
   margin: 10px auto;
-}
-
-.buy {
-  text-align: center;
-  margin: 30px 0 50px;
-}
-
-.buy a {
-  width: 70%;
-  padding: 10px;
-  background: #c83951;
-  color: white;
-  border: none;
-  font-size: 1.2em;
-  display: inline-block;
-  text-decoration: none;
 }
 </style>
